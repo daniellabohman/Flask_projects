@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Stock Data for {{ stock_symbol }}</h1>
+
+<!-- Form to input stock symbol -->
+<form method="POST" action="{{ url_for('main.finance') }}">
+    <input type="text" name="symbol" placeholder="Enter Stock Symbol" required>
+    <button type="submit">Get Stock Data</button>
+</form>
+
+{% if stock_data %}
+    <h2>Stock Prices (Last 30 Days)</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Open Price</th>
+                <th>Close Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Loop through the stock_data list -->
+            {% for day_data in stock_data %}
+            <tr>
+                <td>{{ day_data.date }}</td>
+                <td>{{ day_data.open }}</td>
+                <td>{{ day_data.close }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No stock data available. Please enter a valid stock symbol.</p>
+{% endif %}
+
+{% endblock %}
